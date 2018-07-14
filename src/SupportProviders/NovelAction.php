@@ -11,6 +11,7 @@ const REQ_HEADERS = 'REQ_HEADERS'; // 请求 headers
 const IS_GBK = 'IS_GBK'; // 是否为 GBK
 
 return [
+    /** @example http://www.jjwxc.net/onebook.php?novelid=34724 */
     'http://www.jjwxc.net/onebook.php*' => [
         SITE_NAME => '晋江文学城',
         SEL_NAME => '[itemprop="articleSection"]',
@@ -25,6 +26,7 @@ return [
         REQ_HEADERS => [],
         IS_GBK => true,
     ],
+    /** @example http://www.lwxiaoshuo.com/63/63083/index.html */
     'http://www.lwxiaoshuo.com/*/*/index.html' => [
         SITE_NAME => '乐文小说网',
         SEL_NAME => '.infot:nth-child(1) > h1',

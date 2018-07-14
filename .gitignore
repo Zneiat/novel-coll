@@ -3,3 +3,5 @@
 /php72
 composer.phar
 /vendor
+/src/vendor
+/config.php
