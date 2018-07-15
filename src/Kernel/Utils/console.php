@@ -2,56 +2,46 @@
 
 use Colors\Color;
 
-function gotoAction($selectKey = null)
+function gotoAction($selectNum = null)
 {
-    $showIntro = function ($first = null, $second = null)
+    $showIntro = function ($rows = null)
     {
         $tb = new Console_Table(CONSOLE_TABLE_ALIGN_LEFT, CONSOLE_TABLE_BORDER_ASCII);
-        $tb->addRow([APP_NAME.' - Copyright (C) '.date('Y').' qwqaq.com']);
-        if (!is_null($first)) {
-            $tb->addSeparator();
-            $tb->addRow([$first]);
-        }
-        if (!is_null($second)) {
-            $tb->addSeparator();
-            $tb->addRow([$second]);
+        $tb->addRow([APP_NAME.' - '.APP_COPYRIGHT]);
+        if (!is_null($rows)) {
+            foreach ($rows as $i => $row) {
+                $tb->addSeparator();
+                $tb->addRow([$row]);
+            }
         }
         print($tb->getTable().PHP_EOL);
     };
     
-    $actionList = [];
-    foreach (APP_ACTION_MAP as $item) {
-        $actionList[] = [$item::$ACTION_NAME, $item];
-    }
-    $actionListCount = count($actionList);
-    
-    if (!is_null($selectKey)) goto newAction;
+    if (!is_null($selectNum))
+        goto newAction;
     
     $showIntro();
-    $a = 0;
-    $str = '';
-    $listStr = '';
-    foreach ($actionList as $i=>$action) {
-        $str .= "{$i} - {$action[0]}   ";
-        $a++;
-        if ($a === 4 || ($actionListCount < 4 && $i+1 === $actionListCount)){
-            $listStr .= $str;
-            $a = 0;
-            $str = [];
-        }
+    foreach (APP_ACTION_MAP as $i => $action) {
+        $n = $i+1;
+        print("{$n} - {$action::$ACTION_NAME}   ");
+        if ($n%4 === 0) print(PHP_EOL);
     }
-    print($listStr . PHP_EOL.PHP_EOL);
+    
+    print(PHP_EOL.PHP_EOL);
     $options = [];
-    foreach ($actionList as $i=>$action) {
-        $options[(string)$i] = $action[0];
+    foreach (APP_ACTION_MAP as $i => $action) {
+        $options[$i+1] = $action::$ACTION_NAME . " ({$action})";
     }
-    $selectKey = select('选择 Action: ', $options);
+    $selectNum = select('选择 Action: ', $options);
     print(PHP_EOL);
     clearScreen();
     
     newAction:
-    $showIntro("-> {$actionList[$selectKey][0]}", "-> {$actionList[$selectKey][1]}");
-    new $actionList[$selectKey][1]([]);
+    $selectI = intval($selectNum)-1;
+    $className = APP_ACTION_MAP[$selectI];
+    $actionName = $className::$ACTION_NAME;
+    $showIntro(["-> {$actionName}", "-> {$className}"]);
+    new $className([]);
 }
 
 function _O($msg)

@@ -10,6 +10,7 @@ error_reporting(E_ALL^E_NOTICE);
 date_default_timezone_set('Asia/Shanghai');
 
 define('APP_NAME', 'QwQ Coll');
+define('APP_COPYRIGHT', 'Copyright (C) '.date('Y').' qwqaq.com');
 define('APP_ROOT', __DIR__);
 define('APP_CONF', require APP_ROOT . '/../config.php');
 define('APP_ACTION_MAP', require APP_ROOT . '/action-map.php');

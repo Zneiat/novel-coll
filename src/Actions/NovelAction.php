@@ -76,7 +76,10 @@ class NovelAction extends Action {
         _I("开始执行逐页下载，TOTAL={$this->itemsCount}");
     
         # 逐页下载 创建请求
-        $baseUrl = getBaseUrl($listPageUrl);
+        $baseUrl = isset($this->support[CONTENT_BASE_URL])
+            ? $this->support[CONTENT_BASE_URL]
+            : getBaseUrl($listPageUrl);
+        
         $client = new Client(['base_uri' => $baseUrl]);
         $requests = function () use ($client)
         {
